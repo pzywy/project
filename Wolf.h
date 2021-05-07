@@ -18,9 +18,6 @@ public:
 	{
 		int position = 5;
 
-		if (getRandom(0, 25) != 1)return;//chance to reproduct
-
-
 		position = rep();
 		if (position == 5)return;
 
@@ -32,7 +29,7 @@ public:
 
 		if (world->board->get(posX + a, posY + b) == nullptr)
 		{
-			Organism* newAnimal = new Grass(posX + a, posY + b, world);
+			Organism* newAnimal = new Wolf(posX + a, posY + b, world);
 			world->addOrganism(newAnimal);
 			world->board->set(newAnimal->getX(), newAnimal->getY(), newAnimal);
 		}

@@ -11,7 +11,7 @@ private:
     std::string name;
     std::list <Organism*> organism;
     int sizeX, sizeY;
-    
+    Organism* player;
 
 public:
     Organism* toDelete = nullptr;
@@ -44,7 +44,8 @@ public:
         if (selectedPlace==nullptr || !selectedPlace->isAlive())
         {
             board->set(org->getX(), org->getY(), org);
-            
+            if (org->getName() == ORGANISM::PLAYER)
+                player = org;
             //std::cout << org->getName()<<" was placed in the world."<<std::endl;
         }
         else
@@ -99,8 +100,37 @@ public:
         }
         for (int i = 0; i < sizeX + 2; i++)std::cout << "X";
         std::cout << std::endl;
-    }
 
+        printPlayerHUD();
+        
+    }
+    void printPlayerHUD()
+    {
+        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+        COORD pos = { 0, 0 };
+
+        if (player == nullptr || !player->isAlive())
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                pos = { (short)sizeX + 5, (short)i }; 
+                SetConsoleCursorPosition(hConsole, pos);
+                std::cout << "YOU DIED!";
+            }
+        }
+
+        pos = { (short)sizeX + 5, 0 };
+        SetConsoleCursorPosition(hConsole, pos);
+        std::cout << "Player Position: (" << player->getX()<<", "<<player->getY()<<")";
+
+        pos = { (short)sizeX + 5, 1 };
+        SetConsoleCursorPosition(hConsole, pos);
+        std::cout << "Player Strengh: " << player->getStrengh();
+
+        pos = { (short)sizeX + 5, 2 };
+        SetConsoleCursorPosition(hConsole, pos);
+        std::cout << "Player Age: " << player->getAge();
+    }
     void printOrganismSymbol(ORGANISM symbol)
     {
         HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -116,7 +146,7 @@ public:
         case ORGANISM::LIS: SetConsoleTextAttribute(hConsole, 11);  std::cout << "L"; break;
         case ORGANISM::ZOLW: SetConsoleTextAttribute(hConsole, 9);  std::cout << "Z"; break;
         case ORGANISM::ANTYLOPA: SetConsoleTextAttribute(hConsole, 8);  std::cout << "A"; break;
-        case ORGANISM::CYBEROWCA: SetConsoleTextAttribute(hConsole, 3);  std::cout << "O"; break;
+        case ORGANISM::CYBEROWCA: SetConsoleTextAttribute(hConsole, 19);  std::cout << "O"; break;
         case ORGANISM::UNDEFIND: std::cout << " "; break;
         }
                 //SetConsoleTextAttribute(hConsole, 4);//red
@@ -160,7 +190,7 @@ public:
                 continue;
             }
             
-
+            
             
             if (Organism2* o = static_cast<Organism2*>(org)) {
                 o->turn();

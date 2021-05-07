@@ -21,14 +21,34 @@ public:
 
 	bool collision(Organism* org)//returns if animal pass collision
 	{
-			//std::cout<<name<< " Collision with "<< org->getName()<<std::endl;
-		if (org->getName() == ORGANISM::GUARANA)strengh += 3;
-			//std::cout << "new strengh: " << strengh;
+
+		if (org->getName() == ORGANISM::GUARANA)
+		{
+			strengh += 3;
+			return true;
+		}
+
 		if (org->getName() == name)
 		{
 			reproduction();
+			return false;
 		}
-		if (strengh >= org->getStrengh())// or if turtle or sth
+		if (org->getName() == ORGANISM::BARSZCZ && name == ORGANISM::CYBEROWCA)
+		{
+			org->died();
+			world->delOrganism(org);
+			return true;
+		}
+
+		//deletes wolf berries after eaten
+		if (org->getName() == ORGANISM::WILCZEJAGODY)
+		{
+			org->died();
+			world->delOrganism(org);
+			return true;
+		}
+
+		else if (strengh >= org->getStrengh())// or if turtle or sth
 		{
 			org->died();
 			world->delOrganism(org);
@@ -120,7 +140,15 @@ public:
 			else
 			{
 				//if died
-				if (world->board->get(posX + moveX, posY + moveY)->getStrengh() > strengh)
+				if (world->board->get(posX + moveX, posY + moveY)->getName() == name)
+				{
+
+				}
+				if (world->board->get(posX + moveX, posY + moveY)->getStrengh() >= strengh
+					&& world->board->get(posX + moveX, posY + moveY)->getName() != name
+					||(world->board->get(posX + moveX, posY + moveY)->getName()==ORGANISM::BARSZCZ 
+						&& name == ORGANISM::CYBEROWCA)
+					)
 				{
 					world->board->set(posX, posY, nullptr);
 					died();

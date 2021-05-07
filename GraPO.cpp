@@ -17,8 +17,8 @@
 
 int main()
 {
-    const int worldSizeX = 20;
-    const int worldSizeY = 20;
+    const int worldSizeX = 40;
+    const int worldSizeY = 40;
 
     int chanceFor[13];
     chanceFor[(int)ORGANISM::ANTYLOPA] = 20;
@@ -32,8 +32,9 @@ int main()
     chanceFor[(int)ORGANISM::WILCZEJAGODY] = 5;
     chanceFor[(int)ORGANISM::WILK] = 10;
     chanceFor[(int)ORGANISM::ZOLW] = 15;
-
     chanceFor[(int)ORGANISM::BARSZCZ] = 1;
+
+    
     World* world = new World("World",worldSizeX,worldSizeY);
 
 

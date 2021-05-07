@@ -28,7 +28,7 @@ public:
 				&&world->board->get(posX + a, posY + b) != nullptr)
 			{
 				Organism* org = world->board->get(posX + a, posY + b);
-				if (org->getName() != ORGANISM::BARSZCZ)
+				if (org->getName() != ORGANISM::BARSZCZ || org->getName()!=ORGANISM::CYBEROWCA)
 				{
 					org->died();
 					world->delOrganism(org);
