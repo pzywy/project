@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Pliki źródłowe">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Pliki zasobów">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\Plant">
+      <UniqueIdentifier>{af3de288-0b9f-495b-a872-15cc384684e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\Animals">
+      <UniqueIdentifier>{c59a2cfa-f39d-4406-b951-da0d3e8daf74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\Base">
+      <UniqueIdentifier>{507a556c-d843-432f-a3ba-80fc0cf3a7d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\World">
+      <UniqueIdentifier>{6a0f3625-64a6-497d-9793-746da0eccff1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GraPO.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Grass.h">
+      <Filter>Pliki nagłówkowe\Plant</Filter>
+    </ClInclude>
+    <ClInclude Include="Plant.h">
+      <Filter>Pliki nagłówkowe\Plant</Filter>
+    </ClInclude>
+    <ClInclude Include="Milt.h">
+      <Filter>Pliki nagłówkowe\Plant</Filter>
+    </ClInclude>
+    <ClInclude Include="Animal.h">
+      <Filter>Pliki nagłówkowe\Animals</Filter>
+    </ClInclude>
+    <ClInclude Include="Borscht.h">
+      <Filter>Pliki nagłówkowe\Plant</Filter>
+    </ClInclude>
+    <ClInclude Include="Guarana.h">
+      <Filter>Pliki nagłówkowe\Plant</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Pliki nagłówkowe\Animals</Filter>
+    </ClInclude>
+    <ClInclude Include="Sheep.h">
+      <Filter>Pliki nagłówkowe\Animals</Filter>
+    </ClInclude>
+    <ClInclude Include="WBerries.h">
+      <Filter>Pliki nagłówkowe\Plant</Filter>
+    </ClInclude>
+    <ClInclude Include="Wolf.h">
+      <Filter>Pliki nagłówkowe\Animals</Filter>
+    </ClInclude>
+    <ClInclude Include="Organism.h">
+      <Filter>Pliki nagłówkowe\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Organism2.h">
+      <Filter>Pliki nagłówkowe\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Board.h">
+      <Filter>Pliki nagłówkowe\World</Filter>
+    </ClInclude>
+    <ClInclude Include="World.h">
+      <Filter>Pliki nagłówkowe\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Fox.h">
+      <Filter>Pliki nagłówkowe\Animals</Filter>
+    </ClInclude>
+    <ClInclude Include="Antelope.h">
+      <Filter>Pliki nagłówkowe\Animals</Filter>
+    </ClInclude>
+    <ClInclude Include="Turtle.h">
+      <Filter>Pliki nagłówkowe\Animals</Filter>
+    </ClInclude>
+    <ClInclude Include="CyberSheep.h">
+      <Filter>Pliki nagłówkowe\Animals</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
