@@ -12,32 +12,49 @@ class Animal : public Organism2
 {
 public:
 
-	Animal(ORGANISM name, int strengh,int effort, int posX, int posY, World* world) 
+	Animal(ORGANISM name, int strengh, int effort, int posX, int posY, World* world)
 		: Organism2(name, strengh, effort, posX, posY, world)
 	{
 	}
 
-	virtual void reproduction() = 0; 
+	virtual void reproduction() = 0;
 
-	bool collision(Organism* org)//returns if animal pass collision
+	int collision(Organism* org)//returns if animal pass collision
 	{
 
 		if (org->getName() == ORGANISM::GUARANA)
 		{
 			strengh += 3;
-			return true;
+			return 1;
 		}
 
+		//if the same specie reproduct, and cancel move;
 		if (org->getName() == name)
 		{
 			reproduction();
-			return false;
+			return -1;
 		}
-		if (org->getName() == ORGANISM::BARSZCZ && name == ORGANISM::CYBEROWCA)
+
+		else if (org->getName() == ORGANISM::ZOLW && strengh < 5 && strengh>org->getStrengh())
+		{
+			return -1;
+		}
+
+		//cybersheep exterminates borscht
+		else if (org->getName() == ORGANISM::BARSZCZ && name == ORGANISM::CYBEROWCA)
 		{
 			org->died();
 			world->delOrganism(org);
-			return true;
+			return 1;
+		}
+		//escape of antylopa
+		else if ( org->getName() == ORGANISM::ANTYLOPA && getRandom(0, 1))
+		{
+			if (Organism2* o = static_cast<Organism2*>(org)) {
+				o->turn();
+			}
+
+			return 1;
 		}
 
 		//deletes wolf berries after eaten
@@ -45,18 +62,18 @@ public:
 		{
 			org->died();
 			world->delOrganism(org);
-			return true;
+			return 0;
 		}
 
-		else if (strengh >= org->getStrengh())// or if turtle or sth
+		if (strengh >= org->getStrengh())
 		{
 			org->died();
 			world->delOrganism(org);
-			return true;
+			return 1;
 		}
 		else
 		{
-			return false;
+			return 0;
 		}
 	}
 	void turn()
@@ -75,16 +92,16 @@ public:
 			{
 				if (move(DIRECTION::TOP, distance))succes = true;
 				else
-					if(move(DIRECTION::BOTTOM, distance))succes = true;
+					if (move(DIRECTION::BOTTOM, distance))succes = true;
 			}
 			else
 			{
-				if (move(DIRECTION::BOTTOM, distance)) succes=true;
+				if (move(DIRECTION::BOTTOM, distance)) succes = true;
 				else
-					if(move(DIRECTION::TOP, distance))succes = true;
+					if (move(DIRECTION::TOP, distance))succes = true;
 			}
 		}
-		if(!succes)
+		if (!succes)
 		{
 			if (getRandom(0, 1))
 			{
@@ -105,12 +122,12 @@ public:
 	}
 
 	//(position are reverted)
-	bool move(int direction, int distance=1)
+	bool move(int direction, int distance = 1)
 	{
 		int moveX = 0;
 		int moveY = 0;
-		bool passColision = true;
-		
+		int passColision = 1;
+
 		switch (direction)
 		{
 		case DIRECTION::TOP:moveX = -1 * distance; break;
@@ -123,42 +140,42 @@ public:
 		if (posX + moveX >= 0 && posX + moveX < world->getSizeX()
 			&& posY + moveY >= 0 && posY + moveY < world->getSizeY())
 		{
-			
-			if (world->board->get(posX + moveX, posY + moveY)!=nullptr
-				&&world->board->get(posX + moveX, posY + moveY)->isAlive())
+
+			if (world->board->get(posX + moveX, posY + moveY) != nullptr
+				&& world->board->get(posX + moveX, posY + moveY)->isAlive())
 			{
+				if (name == ORGANISM::ANTYLOPA && getRandom(0, 1))
+					Attemptmove(distance);
+
 				passColision = collision(world->board->get(posX + moveX, posY + moveY));
 			}
 
-			if (passColision)
+			if (passColision == 1)
 			{
 				world->board->set(posX, posY, nullptr);
 				posX += moveX;
 				posY += moveY;
 				world->board->set(posX, posY, this);
+				return true;
 			}
-			else
+			else if (passColision == 0)
+
 			{
-				//if died
-				if (world->board->get(posX + moveX, posY + moveY)->getName() == name)
-				{
-
-				}
-				if (world->board->get(posX + moveX, posY + moveY)->getStrengh() >= strengh
-					&& world->board->get(posX + moveX, posY + moveY)->getName() != name
-					||(world->board->get(posX + moveX, posY + moveY)->getName()==ORGANISM::BARSZCZ 
-						&& name == ORGANISM::CYBEROWCA)
-					)
-				{
-					world->board->set(posX, posY, nullptr);
-					died();
-					world->toDelete = this;
-				}
-
+				world->board->set(posX, posY, nullptr);
+				died();
+				world->toDelete = this;
+				return false;
 			}
-			
-			
+			else if (passColision == -1)
+			{
+				return false;
+			}
+			else;
+
+
 		}
+
+
 		else
 		{
 			//move fail
@@ -168,4 +185,3 @@ public:
 		return true;
 	}
 };
-

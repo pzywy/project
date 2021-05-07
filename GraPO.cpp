@@ -17,11 +17,11 @@
 
 int main()
 {
-    const int worldSizeX = 40;
-    const int worldSizeY = 40;
+    const int worldSizeX = 20;
+    const int worldSizeY = 20;
 
     int chanceFor[13];
-    chanceFor[(int)ORGANISM::ANTYLOPA] = 20;
+    chanceFor[(int)ORGANISM::ANTYLOPA] = 5;
     chanceFor[(int)ORGANISM::BARSZCZ] = 10;
     chanceFor[(int)ORGANISM::CYBEROWCA] = 10;
     chanceFor[(int)ORGANISM::GRASS] = 50;
@@ -34,6 +34,10 @@ int main()
     chanceFor[(int)ORGANISM::ZOLW] = 15;
     chanceFor[(int)ORGANISM::BARSZCZ] = 1;
 
+    for(int i=0;i<13;i++)
+        chanceFor[i] = 0;
+
+    chanceFor[(int)ORGANISM::ANTYLOPA] = 15;
     
     World* world = new World("World",worldSizeX,worldSizeY);
 
@@ -128,3 +132,6 @@ int main()
     
 }
 
+//Problems with antylope
+//if still will occure comment antylope exceptions parts in Animal.h
+//and decrease atylope spawn rate

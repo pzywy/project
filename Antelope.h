@@ -11,6 +11,7 @@ public:
 
 	void action()
 	{
+		//escape
 		Attemptmove(2);
 	}
 
