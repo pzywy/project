@@ -17,6 +17,7 @@ public:
     Organism* toDelete = nullptr;
     Board* board;
     bool gameOn = true;
+    int borschtX = -1; int borschtY = -1;
 
     World(std::string name, int sizeX=20, int sizeY=20) :name(name), sizeX(sizeX), sizeY(sizeY)
     {
@@ -30,7 +31,9 @@ public:
     {
         //std::cout << "Deleting organism: " << org->getName() << "there are:" 
         //    << organism.size() - 1 << std::endl;
+        //if(org->getName()!=ORGANISM::PLAYER)
         organism.remove(org);
+        //delete org;
         
     }
 
@@ -82,11 +85,12 @@ public:
         //move console cursor to top
         COORD pos = { 0, 0 };
         SetConsoleCursorPosition(hConsole, pos);
-
+        SetConsoleTextAttribute(hConsole, 7);
         for (int i = 0; i < sizeX + 2; i++)std::cout << "X";
         std::cout << std::endl;
         for (int x = 0; x < sizeX; x++)
         {
+            SetConsoleTextAttribute(hConsole, 7);
             std::cout << "X";
             for (int y = 0; y < sizeY; y++)
             {
@@ -98,27 +102,44 @@ public:
             std::cout << "X";
             std::cout<<std::endl;
         }
+        SetConsoleTextAttribute(hConsole, 7);
         for (int i = 0; i < sizeX + 2; i++)std::cout << "X";
         std::cout << std::endl;
 
-        printPlayerHUD();
-        
+        printPlayerHUD(); 
     }
+
+
     void printPlayerHUD()
     {
         HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
         COORD pos = { 0, 0 };
 
+
+        pos = { (short)sizeX + 5, 4 };
+        SetConsoleCursorPosition(hConsole, pos);
+        std::cout << "Organisms: " << organism.size();
+
+        pos = { (short)sizeX + 5, 19 };
+        SetConsoleCursorPosition(hConsole, pos);
+        std::cout << "Move - wsad/arrows, special - space, q - wait, o - leave.";
+
+        pos = { (short)sizeX + 5, 21 };
+        SetConsoleCursorPosition(hConsole, pos);
+        std::cout << "Piotr Zywolewski 180469" << player->getAge();
+
         if (player == nullptr || !player->isAlive())
         {
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 6; i++)
             {
-                pos = { (short)sizeX + 5, (short)i }; 
+                SetConsoleTextAttribute(hConsole, 79);
+                pos = { (short)sizeX + 5, (short)i+5 }; 
                 SetConsoleCursorPosition(hConsole, pos);
-                std::cout << "YOU DIED!";
+                std::cout << "YOU DIED!                       ";
             }
+            return;
         }
-
+        
         pos = { (short)sizeX + 5, 0 };
         SetConsoleCursorPosition(hConsole, pos);
         std::cout << "Player Position: (" << player->getX()<<", "<<player->getY()<<")";
@@ -130,23 +151,35 @@ public:
         pos = { (short)sizeX + 5, 2 };
         SetConsoleCursorPosition(hConsole, pos);
         std::cout << "Player Age: " << player->getAge();
+
+        pos = { (short)sizeX + 5, 3 };
+        SetConsoleCursorPosition(hConsole, pos);
+        std::cout << "Special Status: ";
+        if (player->getSpecial() > 0)
+            std::cout << "ON, " << player->getSpecial() << " turns left";
+        if (player->getSpecial() < 0)
+            std::cout << "COOLDOWN, " << - player->getSpecial() << " turns left";
+        if (player->getSpecial() == 0)
+            std::cout << "AVAIBLE                                           ";
+
     }
     void printOrganismSymbol(ORGANISM symbol)
     {
         HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
         switch (symbol) {
         case ORGANISM::PLAYER:SetConsoleTextAttribute(hConsole, 15);  std::cout << "P"; break;
-        case ORGANISM::GRASS:SetConsoleTextAttribute(hConsole, 10); std::cout << "G"; break;
-        case ORGANISM::MILT:SetConsoleTextAttribute(hConsole, 14); std::cout << "M"; break;
-        case ORGANISM::GUARANA: SetConsoleTextAttribute(hConsole, 13);  std::cout << "G"; break;
-        case ORGANISM::WILCZEJAGODY: SetConsoleTextAttribute(hConsole, 12);  std::cout << "J"; break;
-        case ORGANISM::BARSZCZ: SetConsoleTextAttribute(hConsole, 16);  std::cout << "B"; break;
+        case ORGANISM::GRASS:SetConsoleTextAttribute(hConsole, 170); std::cout << "G"; break;//or 10
+        case ORGANISM::MILT:SetConsoleTextAttribute(hConsole, 238); std::cout << "M"; break;//14
+        case ORGANISM::GUARANA: SetConsoleTextAttribute(hConsole, 214);  std::cout << "G"; break;//13
+        case ORGANISM::WILCZEJAGODY: SetConsoleTextAttribute(hConsole, 92);  std::cout << "J"; break;//12
+        case ORGANISM::BARSZCZ: SetConsoleTextAttribute(hConsole, 112);  std::cout << "B"; break;//16
         case ORGANISM::WILK: SetConsoleTextAttribute(hConsole, 4);  std::cout << "W"; break;
         case ORGANISM::OWCA: SetConsoleTextAttribute(hConsole, 3);  std::cout << "O"; break;
         case ORGANISM::LIS: SetConsoleTextAttribute(hConsole, 11);  std::cout << "L"; break;
         case ORGANISM::ZOLW: SetConsoleTextAttribute(hConsole, 9);  std::cout << "Z"; break;
         case ORGANISM::ANTYLOPA: SetConsoleTextAttribute(hConsole, 8);  std::cout << "A"; break;
         case ORGANISM::CYBEROWCA: SetConsoleTextAttribute(hConsole, 19);  std::cout << "O"; break;
+        case ORGANISM::FIRE: SetConsoleTextAttribute(hConsole, 68);  std::cout << "X"; break;
         case ORGANISM::UNDEFIND: std::cout << " "; break;
         }
                 //SetConsoleTextAttribute(hConsole, 4);//red
@@ -178,12 +211,23 @@ public:
     void turn()
 
     {
-        print();
+        if(player==nullptr||!player->isAlive())
+            print();
 
         for (Organism* org : organism)
         {
+            
             delOrganism(toDelete);
             toDelete = nullptr;
+
+            //print on player turn
+            if (org->getName() == ORGANISM::PLAYER)
+                print();
+
+            if (org->getName() == ORGANISM::BARSZCZ && borschtX == -1)
+            {
+                borschtX = org->getX(); borschtY = org->getY();
+            }
 
             if (org==nullptr||!org->isAlive())
             {     
@@ -194,7 +238,10 @@ public:
             
             if (Organism2* o = static_cast<Organism2*>(org)) {
                 o->turn();
+              
             }
+            
+            
             //else if (Plant* o = dynamic_cast<Plant*>(org)) {
             //    o->turn();
             //}
@@ -203,22 +250,6 @@ public:
         }
         
     }
-
-    /*
-    void prepareBoard(int worldSize)
-    {
-        system("cls");
-        HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);
-
-
-        COORD pos = { worldSize * 2 + 5, 0 };
-        SetConsoleCursorPosition(out, pos);
-        std::cout << "Move - wsad, q - wait, o - leave.";
-
-        pos = { 0, 0 };
-        SetConsoleCursorPosition(out, pos);
-    }
-    */
 
 };
 

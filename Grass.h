@@ -21,7 +21,7 @@ private:
 	{
 		int position = 5;
 
-			if (getRandom(0, 25) != 1)return;//chance to reproduct
+			if (getRandom(0, 35) != 1)return;//chance to reproduct
 
 
 			position = reproduction();

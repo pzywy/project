@@ -11,7 +11,26 @@ public:
 
 	void action()
 	{
-		Attemptmove();
+		if (world->borschtX == -1)
+			Attemptmove();
+		else
+		{
+			DIRECTION direction = DIRECTION::RIGHT;
+			int right = -1;
+			int top = -1;
+
+			if (world->borschtX > posX)top = 0;
+			else if (world->borschtX < posX) top = 1;
+			else if (world->borschtY > posY) right = 1;
+			else if (world->borschtY < posY) right = 0;
+			else Attemptmove();
+
+			if (top == 1 && move(DIRECTION::TOP));
+			else if (top == 0 && move(DIRECTION::BOTTOM));
+			else if (right == 1 && move(DIRECTION::RIGHT));
+			else if (right == 0 && move(DIRECTION::LEFT));
+			else Attemptmove();
+		}
 	}
 
 	void reproduction()

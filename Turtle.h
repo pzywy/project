@@ -11,7 +11,9 @@ public:
 
 	void action()
 	{
-		Attemptmove();
+		//move only in 25% cases
+		if(getRandom(0,3)==0)
+			Attemptmove();
 	}
 
 	void reproduction()

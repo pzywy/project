@@ -15,27 +15,31 @@ public:
 	Animal(ORGANISM name, int strengh, int effort, int posX, int posY, World* world)
 		: Organism2(name, strengh, effort, posX, posY, world)
 	{
+		isAnimal = true;
 	}
 
 	virtual void reproduction() = 0;
-
 	int collision(Organism* org)//returns if animal pass collision
 	{
 
 		if (org->getName() == ORGANISM::GUARANA)
 		{
 			strengh += 3;
+			org->died();
+			world->delOrganism(org);
 			return 1;
+		
 		}
 
 		//if the same specie reproduct, and cancel move;
-		if (org->getName() == name)
+		else if (org->getName() == name)
 		{
-			reproduction();
+			if(getRandom(0, 2) == 0)reproduction();
 			return -1;
 		}
 
-		else if (org->getName() == ORGANISM::ZOLW && strengh < 5 && strengh>org->getStrengh())
+		//turtle protection
+		else if (org->getName() == ORGANISM::ZOLW && strengh <= 5 && strengh>org->getStrengh())
 		{
 			return -1;
 		}
@@ -43,12 +47,19 @@ public:
 		//cybersheep exterminates borscht
 		else if (org->getName() == ORGANISM::BARSZCZ && name == ORGANISM::CYBEROWCA)
 		{
+			world->borschtX = -1;
 			org->died();
 			world->delOrganism(org);
 			return 1;
 		}
+
+		else if (name == ORGANISM::LIS&& strengh < org->getStrengh() > strengh)
+		{
+			return -1;
+		}
+
 		//escape of antylopa
-		else if ( org->getName() == ORGANISM::ANTYLOPA && getRandom(0, 1))
+		else if (false&& org->getName() == ORGANISM::ANTYLOPA && getRandom(0, 1))
 		{
 			if (Organism2* o = static_cast<Organism2*>(org)) {
 				o->turn();
@@ -58,14 +69,14 @@ public:
 		}
 
 		//deletes wolf berries after eaten
-		if (org->getName() == ORGANISM::WILCZEJAGODY)
+		else if (org->getName() == ORGANISM::WILCZEJAGODY)
 		{
 			org->died();
 			world->delOrganism(org);
 			return 0;
 		}
 
-		if (strengh >= org->getStrengh())
+		else if (strengh >= org->getStrengh())
 		{
 			org->died();
 			world->delOrganism(org);
@@ -121,6 +132,7 @@ public:
 
 	}
 
+
 	//(position are reverted)
 	bool move(int direction, int distance = 1)
 	{
@@ -144,8 +156,8 @@ public:
 			if (world->board->get(posX + moveX, posY + moveY) != nullptr
 				&& world->board->get(posX + moveX, posY + moveY)->isAlive())
 			{
-				if (name == ORGANISM::ANTYLOPA && getRandom(0, 1))
-					Attemptmove(distance);
+				//if (name == ORGANISM::ANTYLOPA && getRandom(0, 1))
+					//Attemptmove(distance);
 
 				passColision = collision(world->board->get(posX + moveX, posY + moveY));
 			}
@@ -164,7 +176,7 @@ public:
 				world->board->set(posX, posY, nullptr);
 				died();
 				world->toDelete = this;
-				return false;
+				return true;
 			}
 			else if (passColision == -1)
 			{
@@ -181,7 +193,6 @@ public:
 			//move fail
 			return false;
 		}
-		//std::cout << "Pos: " << posX << ", " << posY << std::endl;
 		return true;
 	}
 };

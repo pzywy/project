@@ -21,6 +21,9 @@ public:
 
 		if (getRandom(0, 25) != 1)return;//chance to reproduct
 
+		position = rep();
+		if (position == 5)return;
+
 		int a = 1;
 		int b = 1;
 

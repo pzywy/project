@@ -23,7 +23,7 @@ private:
 
 		for (int i = 0; i < 3; i++)
 		{
-			if (getRandom(0, 25) != 1)continue;//chance to reproduct
+			if (getRandom(0, 50) != 1)continue;//chance to reproduct
 
 
 			position = reproduction();

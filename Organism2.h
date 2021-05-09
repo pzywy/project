@@ -7,7 +7,7 @@ public:
     Organism2(ORGANISM name, int strengh, int effort, int posX, int posY, World* world)
         : Organism(name, strengh, effort, posX, posY, world)
     {
-
+        
     }
     virtual void turn() = 0;
 

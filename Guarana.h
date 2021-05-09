@@ -18,7 +18,7 @@ public:
 	{
 		int position = 5;
 
-		if (getRandom(0, 50) != 1)return;//chance to reproduct
+		if (getRandom(0, 75) != 1)return;//chance to reproduct
 
 
 		position = reproduction();

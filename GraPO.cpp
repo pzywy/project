@@ -17,28 +17,29 @@
 
 int main()
 {
-    const int worldSizeX = 20;
-    const int worldSizeY = 20;
+    const int worldSizeX = 30;
+    const int worldSizeY = 30;
 
     int chanceFor[13];
-    chanceFor[(int)ORGANISM::ANTYLOPA] = 5;
+    chanceFor[(int)ORGANISM::ANTYLOPA] = 15;
     chanceFor[(int)ORGANISM::BARSZCZ] = 10;
-    chanceFor[(int)ORGANISM::CYBEROWCA] = 10;
-    chanceFor[(int)ORGANISM::GRASS] = 50;
+    chanceFor[(int)ORGANISM::CYBEROWCA] = 5;
+    chanceFor[(int)ORGANISM::GRASS] = 40;
     chanceFor[(int)ORGANISM::GUARANA] = 20;
-    chanceFor[(int)ORGANISM::LIS] = 30;
-    chanceFor[(int)ORGANISM::MILT] = 30;
+    chanceFor[(int)ORGANISM::LIS] = 20;
+    chanceFor[(int)ORGANISM::MILT] = 20;
     chanceFor[(int)ORGANISM::OWCA] = 25;
-    chanceFor[(int)ORGANISM::WILCZEJAGODY] = 5;
+    chanceFor[(int)ORGANISM::WILCZEJAGODY] = 7;
     chanceFor[(int)ORGANISM::WILK] = 10;
     chanceFor[(int)ORGANISM::ZOLW] = 15;
-    chanceFor[(int)ORGANISM::BARSZCZ] = 1;
+    chanceFor[(int)ORGANISM::BARSZCZ] = 7;
 
-    for(int i=0;i<13;i++)
-        chanceFor[i] = 0;
 
-    chanceFor[(int)ORGANISM::ANTYLOPA] = 15;
-    
+    //for(int i=0;i<13;i++)
+    //    chanceFor[i] = 0;
+
+    //chanceFor[(int)ORGANISM::CYBEROWCA] = 15;
+    //chanceFor[(int)ORGANISM::BARSZCZ] = 15;
     World* world = new World("World",worldSizeX,worldSizeY);
 
 
@@ -129,7 +130,6 @@ int main()
     {
         world->turn();
     }
-    
 }
 
 //Problems with antylope

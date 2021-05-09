@@ -147,6 +147,7 @@
     <ClInclude Include="Board.h" />
     <ClInclude Include="Borscht.h" />
     <ClInclude Include="CyberSheep.h" />
+    <ClInclude Include="Fire.h" />
     <ClInclude Include="Fox.h" />
     <ClInclude Include="Grass.h" />
     <ClInclude Include="Guarana.h" />

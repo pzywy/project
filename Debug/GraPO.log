@@ -1,4 +1,5 @@
 ﻿  GraPO.cpp
-C:\Users\Piotr\source\repos\GraPO\GraPO\Organism.h(120,14): warning C4244: "argument": konwersja z "time_t" do "unsigned int", możliwa utrata danych
-C:\Users\Piotr\source\repos\GraPO\GraPO\Plant.h(39): warning C4715: "Plant::reproduction”: niewszystkie ścieżki kodu zwracają wartość
+C:\Users\Piotr\source\repos\GraPO\GraPO\Organism.h(148,14): warning C4244: "argument": konwersja z "time_t" do "unsigned int", możliwa utrata danych
+C:\Users\Piotr\source\repos\GraPO\GraPO\Animal.h(56,44): warning C4804: ">": niebezpieczne użycie typu "bool" w operacji
+C:\Users\Piotr\source\repos\GraPO\GraPO\Plant.h(38): warning C4715: "Plant::reproduction”: niewszystkie ścieżki kodu zwracają wartość
   GraPO.vcxproj -> C:\Users\Piotr\source\repos\GraPO\Debug\GraPO.exe

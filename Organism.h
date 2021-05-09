@@ -17,7 +17,8 @@ enum class ORGANISM : int
 	ZOLW,
 	ANTYLOPA,
 	CYBEROWCA,
-	UNDEFIND
+	UNDEFIND,
+	FIRE
 
 };
 std::ostream& operator<<(std::ostream& lhs, ORGANISM o) {
@@ -35,9 +36,12 @@ std::ostream& operator<<(std::ostream& lhs, ORGANISM o) {
 	case ORGANISM::ANTYLOPA: lhs << "Antylopa"; break;
 	case ORGANISM::CYBEROWCA: lhs << "Cyber-Owca"; break;
 	case ORGANISM::UNDEFIND: lhs << "UNDEFIND"; break;
+	case ORGANISM::FIRE: lhs << "UNDEFIND"; break;
 	}
 	return lhs;
 }
+
+
 
 
 class Organism
@@ -51,8 +55,9 @@ protected:
 	int posY;
 	int age;//in turns
 	bool alive;
+	bool isAnimal;
 	World* world;
-	
+	int specialCounter = 0;
 	
 public:
 	bool operator == (const Organism& org) const { return getID() == org.getID(); }
@@ -76,6 +81,9 @@ public:
 		return (unsigned long)this;//unique ID
 	}
 
+
+
+
 	int getEffort() { return effort; }
 	int getStrengh() { return strengh; }
 	int getX() { return posX; }
@@ -83,12 +91,32 @@ public:
 	int getAge() { return age; }
 	ORGANISM getName() { return name; }
 	bool isAlive() {return alive; }
+	bool getIsAnimal() { return isAnimal; }
+	int getSpecial() { return specialCounter; }
 
 	void setEffort(int e) { effort = e; }
 	void setStrengh(int s) {strengh =s; }
 	void setX(int x) {posX = x; }
 	void setY(int y) {posY = y; }
 	void addAge(int a = 1) { age += a; }
+
+	std::string getStringName(ORGANISM o) {
+		switch (o) {
+		case ORGANISM::PLAYER: return  "Gracz";
+		case ORGANISM::GRASS: return  "Trawa";
+		case ORGANISM::MILT: return "Mlecz";
+		case ORGANISM::GUARANA: return "Guarana";
+		case ORGANISM::WILCZEJAGODY: return  "Wilcze Jagody";
+		case ORGANISM::BARSZCZ: return "Barszcz Sosnowskiego";
+		case ORGANISM::WILK: return "Wilk";
+		case ORGANISM::OWCA: return "Owca";
+		case ORGANISM::LIS: return "Lis";
+		case ORGANISM::ZOLW: return "Zó³w";
+		case ORGANISM::ANTYLOPA: return "Antylopa";
+		case ORGANISM::CYBEROWCA: return "Cyber-Owca";
+		case ORGANISM::UNDEFIND: return "UNDEFIND";
+		}
+	}
 
 	int getAFromPosition(int pos)
 	{
@@ -123,5 +151,9 @@ public:
 		return min + rand() % ((max + 1) - min);
 	}
 
+	~Organism()
+	{
+		//std::cout<<"Deleted Organism"<<name<<std::endl;
+	}
 };
 

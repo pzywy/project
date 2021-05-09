@@ -6,10 +6,10 @@ public:
 
 	Plant(ORGANISM name, int strengh, int posX, int posY, World* world) : Organism2(name, strengh, 0, posX, posY, world)
 	{
+		isAnimal = false;
 	}
 	int reproduction()
 	{
-		//std::cout << name << " Reproducted" << std::endl;
 
 		int triedPositions = 1;
 
@@ -19,9 +19,8 @@ public:
 			int a = 1;
 			int b = 1;
 
-			b = ((position % 3) + 1) % 3;
-			if (b == 2)b = -1;
-			a = -1 + (int)(position / 4);
+			b = getBFromPosition(position);
+			a = getAFromPosition(position);
 
 			//also check if not out of boundarys
 			if (posX + a >= 0
@@ -44,6 +43,6 @@ public:
 	}
 
 	virtual void action() = 0;
-
+	
 };
 
